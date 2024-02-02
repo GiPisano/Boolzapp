@@ -4,7 +4,16 @@ createApp({
     data() {
         return {
             activeIndex: 0,
-            myMessage: '',
+            myMessage: {
+                date: 'inviato ora',
+                message: '',
+                status: 'sent'
+            },
+            answerMessage: {
+                date: 'inviato ora',
+                message: 'Ok',
+                status: 'received'
+            },
             contacts: [ 
                 // Michele
                 {
@@ -184,8 +193,19 @@ createApp({
      contactClick(index){
         this.activeIndex = index;
         console.log('questo è' + index)
-     }
+     },
+
+     myNewMessage(){
+        this.contacts[this.activeIndex].messages.push({...this.myMessage});
+
+        setTimeout(() => {
+            this.contacts[this.activeIndex].messages.push({...this.answerMessage});
+        }, 1000)
+        this.myMessage.message = '';
     }
+    }
+
+ 
 
 }).mount('#app')
 

@@ -111,7 +111,8 @@
                 <!-- CHAT FOOTER -->
                 <div class=" chat-footer">
                     <i class="fa-regular fa-face-smile fa-xl icon-chat"></i>
-                    <input type="text" class="input-chat" placeholder="Scrivi un messaggio">
+                    <input type="text" class="input-chat" placeholder="Scrivi un messaggio" v-model="myMessage.message"
+                        @keyup.enter="myNewMessage">
                     <i class="fa-solid fa-microphone fa-xl icon-chat"></i>
                 </div>
             </div>
