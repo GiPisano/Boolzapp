@@ -4,6 +4,7 @@ createApp({
     data() {
         return {
             activeIndex: 0,
+            searchContact: '',
             myMessage: {
                 date: 'inviato ora',
                 message: '',
@@ -14,6 +15,7 @@ createApp({
                 message: 'Ok',
                 status: 'received'
             },
+            
             contacts: [ 
                 // Michele
                 {
@@ -189,11 +191,19 @@ createApp({
         }                 
     },
 
+    // Filtra i contati 
+    computed: {
+        filteredContacts() {
+            const searchTerm = this.searchContact.toLowerCase().trim();
+            const filtered = this.contacts.filter(contact => contact.name.toLowerCase().includes(searchTerm));
+            return filtered;
+        }
+    },
+
     methods: {
-     contactClick(index){
-        this.activeIndex = index;
-        console.log('questo è' + index)
-     },
+        contactClick(index) {
+            this.activeIndex = index;
+        },
 
      myNewMessage(){
         this.contacts[this.activeIndex].messages.push({...this.myMessage});
@@ -208,4 +218,6 @@ createApp({
  
 
 }).mount('#app')
+
+
 

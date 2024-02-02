@@ -60,16 +60,17 @@
 
                 <!-- INPUT SEARCH -->
                 <div class="input-container">
-                    <input type="text" class="input-contacts" placeholder="Cerca o inizia una nuova chat">
+                    <input type="text" class="input-contacts" placeholder="Cerca o inizia una nuova chat"
+                        v-model="searchContact">
                 </div>
 
                 <!-- CHAT telephone-book -->
-                <div class="book-container ">
-                    <div class="contacts" v-for="(contact, index) in contacts" @click="contactClick(index)">
+                <div class="book-container">
+                    <div class="contacts" v-for="(contact, index) in filteredContacts" @click="contactClick(index)">
                         <div class="circle-container">
-                            <img :src='contacts[index].avatar' alt="">
+                            <img :src="contact.avatar">
                         </div>
-                        <div>{{ contacts[index].name }}</div>
+                        <div>{{ contact.name }} </div>
                     </div>
                 </div>
 
@@ -83,7 +84,7 @@
 
                     <div class="chat-user-info">
                         <div class="circle-container">
-                            <img :src='contacts[activeIndex].avatar' alt="">
+                            <img :src='contacts[activeIndex].avatar'>
                         </div>
 
                         <div>
@@ -103,7 +104,7 @@
                 <div class="chat-main">
                     <div class="container-chat" v-for="(message, index) in contacts[activeIndex].messages">
                         <div :class="(message.status == 'received') ? 'received' : 'sent' ">
-                            <p>{{ message.message}}</p>
+                            <p>{{ message.message }}</p>
                         </div>
                     </div>
                 </div>
