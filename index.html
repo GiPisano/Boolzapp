@@ -65,13 +65,7 @@
 
                 <!-- CHAT telephone-book -->
                 <div class="book-container ">
-                    <div class="contacts" v-for="(contact, index) in contacts">
-                        <div class="circle-container">
-                            <img :src='contacts[index].avatar' alt="">
-                        </div>
-                        <div>{{ contacts[index].name }}</div>
-                    </div>
-                    <div class="contacts" v-for="(contact, index) in contacts">
+                    <div class="contacts" v-for="(contact, index) in contacts" @click="contactClick(index)">
                         <div class="circle-container">
                             <img :src='contacts[index].avatar' alt="">
                         </div>
@@ -89,12 +83,12 @@
 
                     <div class="chat-user-info">
                         <div class="circle-container">
-                            <img :src='contacts[0].avatar' alt="">
+                            <img :src='contacts[activeIndex].avatar' alt="">
                         </div>
 
                         <div>
-                            <p>{{ contacts[0].name }}</p>
-                            <p class="last-login">Ultimo accesso oggi alle 12:00</p>
+                            <p>{{ contacts[activeIndex].name }}</p>
+                            <p class="last-login"></p>
                         </div>
                     </div>
                     <div class="options">
@@ -107,20 +101,17 @@
 
                 <!-- CHAT MAIN -->
                 <div class="chat-main">
-                    <div class="container-chat">
-                        <div class="chat-received">
-                            <p>{{contacts[1].messages[0].message }}</p>
-                        </div>
-                        <div class="chat-sent">
-                            {{contacts[1].messages[1].message }}
+                    <div class="container-chat" v-for="(message, index) in contacts[activeIndex].messages">
+                        <div :class="(message.status == 'received') ? 'received' : 'sent' ">
+                            <p>{{ message.message}}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- CHAT FOOTER -->
-                <div class="chat-footer">
+                <div class=" chat-footer">
                     <i class="fa-regular fa-face-smile fa-xl icon-chat"></i>
-                    <input type="text" class="input-chat" placeholder="Cerca o inizia una nuova chat">
+                    <input type="text" class="input-chat" placeholder="Scrivi un messaggio">
                     <i class="fa-solid fa-microphone fa-xl icon-chat"></i>
                 </div>
             </div>
