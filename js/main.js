@@ -6,12 +6,12 @@ createApp({
             activeIndex: 0,
             searchContact: '',
             myMessage: {
-                date: 'inviato ora',
+                date: '',
                 message: '',
                 status: 'sent'
             },
             answerMessage: {
-                date: 'inviato ora',
+                date: '',
                 message: 'Ok',
                 status: 'received'
             },
@@ -191,13 +191,15 @@ createApp({
         }                 
     },
 
-    // Filtra i contati 
     computed: {
         filteredContacts() {
             const searchTerm = this.searchContact.toLowerCase().trim();
             const filtered = this.contacts.filter(contact => contact.name.toLowerCase().includes(searchTerm));
             return filtered;
-        }
+        },
+        activeContact(){
+            return this.contacts[this.activeIndex] 
+        },
     },
 
     methods: {
@@ -205,14 +207,34 @@ createApp({
             this.activeIndex = index;
         },
 
-     myNewMessage(){
-        this.contacts[this.activeIndex].messages.push({...this.myMessage});
+        myNewMessage(){
+            const currentTime = this.getCurrentTime();
+            this.myMessage.date = currentTime;
+            this.activeContact.messages.push({...this.myMessage});
+            setTimeout(() => {
+                this.answerMessage.date = currentTime;
+                this.activeContact.messages.push({...this.answerMessage});
+            }, 1000)
+            this.myMessage.message = '';
+        },
 
-        setTimeout(() => {
-            this.contacts[this.activeIndex].messages.push({...this.answerMessage});
-        }, 1000)
-        this.myMessage.message = '';
-    }
+        getLastMessage(contact) {
+            const lastMessage = contact.messages[contact.messages.length - 1];
+            return lastMessage ? lastMessage.message : '';
+        },
+
+        getLastMessageDate(contact) {
+            const lastMessage = contact.messages[contact.messages.length - 1];
+            return lastMessage ? lastMessage.date : '';
+        },
+
+        getCurrentTime(){
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+     
     }
 
  

@@ -66,11 +66,16 @@
 
                 <!-- CHAT telephone-book -->
                 <div class="book-container">
-                    <div class="contacts" v-for="(contact, index) in filteredContacts" @click="contactClick(index)">
+                    <div class="contacts" v-for="(contact, index) in filteredContacts" @click="contactClick(index)"
+                        :class="{ 'active': index == activeIndex }">
                         <div class="circle-container">
                             <img :src="contact.avatar">
                         </div>
-                        <div>{{ contact.name }} </div>
+                        <div class="last-info">
+                            <p>{{ contact.name }}</p>
+                            <p class="last-message">{{ getLastMessage(contact) }}</p>
+                            <p class="last-login">{{ getLastMessageDate(contact) }}</p>
+                        </div>
                     </div>
                 </div>
 
@@ -84,12 +89,12 @@
 
                     <div class="chat-user-info">
                         <div class="circle-container">
-                            <img :src='contacts[activeIndex].avatar'>
+                            <img :src='activeContact.avatar'>
                         </div>
 
                         <div>
-                            <p>{{ contacts[activeIndex].name }}</p>
-                            <p class="last-login"></p>
+                            <p>{{ activeContact.name }}</p>
+                            <p class="last-date">ultimo accesso: {{ getLastMessageDate(activeContact) }}</p>
                         </div>
                     </div>
                     <div class="options">
@@ -102,9 +107,10 @@
 
                 <!-- CHAT MAIN -->
                 <div class="chat-main">
-                    <div class="container-chat" v-for="(message, index) in contacts[activeIndex].messages">
+                    <div class="container-chat" v-for="(message, index) in activeContact.messages">
                         <div :class="(message.status == 'received') ? 'received' : 'sent' ">
-                            <p>{{ message.message }}</p>
+                            <p class="text-message">{{ message.message }}</p>
+                            <p class="data-message">{{ message.date }}</p>
                         </div>
                     </div>
                 </div>
